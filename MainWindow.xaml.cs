@@ -90,7 +90,7 @@ namespace BulkQuery
                     serverNodeViewModel.Children.Add(dbNodeViewModel);
                 }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 var serverNodeViewModel = new TreeViewModel<DatabaseTreeNode>(server.DisplayName + " (Connection Failed)", serverNode);
                 databaseTreeModel.Add(serverNodeViewModel);
@@ -145,8 +145,10 @@ namespace BulkQuery
             ContextMenu menu = new ContextMenu();
             if (selectedElement.Value.IsServerNode)
             {
-                var menuItem = new MenuItem();
-                menuItem.Header = "Refresh Databases";
+                var menuItem = new MenuItem
+                {
+                    Header = "Refresh Databases"
+                };
                 menuItem.Click += (o, args) =>
                 {
                     RemoveServer(selectedElement.Value.ServerDefinition);
@@ -154,8 +156,10 @@ namespace BulkQuery
                 };
                 menu.Items.Add(menuItem);
 
-                menuItem = new MenuItem();
-                menuItem.Header = "Remove Server";
+                menuItem = new MenuItem
+                {
+                    Header = "Remove Server"
+                };
                 menuItem.Click += (o, args) =>
                 {
                     RemoveServer(selectedElement.Value.ServerDefinition);

@@ -14,8 +14,10 @@ namespace BulkQuery
         {
             var databases = new List<DatabaseDefinition>();
             const string query = "SELECT name FROM master.dbo.sysdatabases";
-            var builder = new SqlConnectionStringBuilder(server.ConnectionString);
-            builder.ConnectTimeout = 5;
+            var builder = new SqlConnectionStringBuilder(server.ConnectionString)
+            {
+                ConnectTimeout = 5
+            };
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
@@ -134,8 +136,10 @@ namespace BulkQuery
             var friendlyDbName = $"{db.DatabaseName} - {db.Server.DisplayName}";
 
 
-            var builder = new SqlConnectionStringBuilder(db.Server.ConnectionString);
-            builder.InitialCatalog = db.DatabaseName;
+            var builder = new SqlConnectionStringBuilder(db.Server.ConnectionString)
+            {
+                InitialCatalog = db.DatabaseName
+            };
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
                 try
@@ -191,8 +195,10 @@ namespace BulkQuery
                 foreach (DataRow drow in dtSchema.Rows)
                 {
                     string columnName = Convert.ToString(drow["ColumnName"]);
-                    DataColumn column = new DataColumn(columnName, (Type)(drow["DataType"]));
-                    column.AllowDBNull = (bool)drow["AllowDBNull"];
+                    DataColumn column = new DataColumn(columnName, (Type)(drow["DataType"]))
+                    {
+                        AllowDBNull = (bool)drow["AllowDBNull"]
+                    };
                     listCols.Add(column);
                     dt.Columns.Add(column);
                 }
