@@ -131,7 +131,7 @@ namespace BulkQuery
             //            {
             //                friendlyDbName += " - " + db.Server.DisplayName;
             //            }
-            var friendlyDbName = db.DatabaseName + " - " + db.Server.DisplayName;
+            var friendlyDbName = $"{db.DatabaseName} - {db.Server.DisplayName}";
 
 
             var builder = new SqlConnectionStringBuilder(db.Server.ConnectionString);
@@ -140,17 +140,17 @@ namespace BulkQuery
             {
                 try
                 {
-                    Debug.WriteLine("connecting to " + friendlyDbName);
+                    Debug.WriteLine($"connecting to {friendlyDbName}");
                     await connection.OpenAsync();
                     var command = connection.CreateCommand();
                     command.CommandText = query;
                     Debug.WriteLine("querying " + friendlyDbName);
                     using (var dataReader = await command.ExecuteReaderAsync())
                     {
-                        Debug.WriteLine("reading results from " + friendlyDbName);
+                        Debug.WriteLine($"reading results from {friendlyDbName}");
                         result.ResultTable = ReadTable(dataReader);
                         result.ResultTable.TableName = friendlyDbName;
-                        Debug.WriteLine("finished reading results from " + friendlyDbName);
+                        Debug.WriteLine($"finished reading results from {friendlyDbName}");
 
                         // Add a column that shows which DB it came from.
                         var sourceCol = new DataColumn("Source Database", typeof(string));
